@@ -31,7 +31,7 @@ import static com.example.matan.hw1app.R.id.inputSearch;
  */
 public class FavoriteActivities extends ListActivity {
 
-    private ListView list;
+    private ListView list ;
     private CustomListAdapter adapter;
     private Context context;
     EditText inputSearch;
