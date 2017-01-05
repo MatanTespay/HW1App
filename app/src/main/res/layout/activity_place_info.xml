@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/placeInfoTittle"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+    </TextView>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/placeTitle"
+        android:layout_weight="0.34" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <ImageView
+            android:id="@+id/placeImg"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:layout_weight="0.74"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <requestFocus />
+        </ImageView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/placeDescription"
+            android:text="@string/description"
+            android:layout_height="92dp"
+            android:layout_marginTop="15dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="25dp">
+
+        <Button
+            android:text="@string/btnEditPlace"
+            android:layout_width="165dp"
+            android:id="@+id/btnEdit"
+            android:layout_weight="1"
+            android:layout_height="65dp"
+            android:onClick="btnEdit_onClick" />
+
+        <Button
+            android:text="@string/btnRemove"
+            android:layout_height="65dp"
+            android:id="@+id/btnRemove"
+            android:layout_width="165dp"
+            android:layout_weight="1"
+            android:onClick="btnRemove_onClick" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <Button
+            android:text="@string/btnShare"
+            android:layout_width="165dp"
+            android:layout_height="65dp"
+            android:id="@+id/btnShare"
+            android:layout_weight="1"
+            android:onClick="btnShare_onClick" />
+
+        <Button
+            android:text="@string/btnAddToFav"
+            android:layout_width="165dp"
+            android:layout_height="65dp"
+            android:id="@+id/btnFav"
+            android:layout_weight="1"
+            android:onClick="btnAddToFav_onClick" />
+    </LinearLayout>
+
+</LinearLayout>

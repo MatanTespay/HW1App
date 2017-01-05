@@ -1,0 +1,80 @@
+<resources>
+    <string name="app_name">Places App</string>
+    //Main Activity
+    <string name="mainTitle">Places App</string>
+    <string name="btnPlaces">Places</string>
+    <string name="btnAddPlace">Add Place</string>
+    <string name="btnFav">Favorite</string>
+    <string name="btnProfile">Profile</string>
+    <string name="MainTitle">Places App</string>
+
+    //Place detail activity
+    <string name="ui_button_save_title">Save</string>
+    <string name="ui_button_change_title">Take a pic</string>
+    <string name="placeInfoTittle">Details for Place: </string>
+    <string name="btnEditPlace">Edit</string>
+    <string name="btnRemove">Remove</string>
+    <string name="btnShare">Share</string>
+    <string name="btnAddToFav">Add to Favorite</string>
+    <string name="placeTile">Title</string>
+    <string name="description">description</string>
+    <string name="PlaceInfoTitle">Place Details</string>
+    <string name="AllPlace">All Places</string>
+    <string name="savedChanges"> "Changes save to %1$s"</string>
+    <string name="ErrorChanges"> "Error on saving changes"</string>
+    <string name="NoPlaces">"No places to show"</string>
+    <string name="removeMsg">"The place: %1$s was removed successfully."</string>
+    <string name="dialogPlaceTag">place_info_frag</string>
+
+
+    //Edit Dialog
+    <string name="DialogPalceDescription">Enter description</string>
+    <string name="btnDialogSave">Save</string>
+    <string name="btnDialogCancel">Cancel</string>
+    <string name="bntpickImg">Pick Image</string>
+    <string name="PopUpEditTitle">Edit Details</string>
+
+    //Favorites
+    <string name="FavTitle">Favorites Places</string>
+    <string name="nofav">You haven\'t favorite any place yet!!!</string>
+    <string name="hint">Search places..</string>
+
+
+    //ImagPicker
+    <string name="pick_image_intent_text">Choose an image</string>
+    <string name="ImagPickerTitle">"Select picture from :"</string>
+    <string name="runtime_permissions_txt">Please enable ALL permissions from app settings.</string>
+
+    //Profile
+    <string name="lblName">Name : </string>
+    <string name="lblAge">Age : </string>
+    <string name="lblAgeG1">under 18</string>
+    <string name="lblAgeG2">between 18 to 30</string>
+    <string name="lblAgeG3">above 30</string>
+    <string name="lblCountry">Country : </string>
+    <string name="lblSaveBtn">Save Info</string>
+    <string name="ProfileTitle">Profile Details</string>
+    <string name="saveInfoMsg">Info details saved</string>
+
+    //share menu
+    <string name="message">Click on menu for Menu Demo</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="save">Save</string>
+    <string name="search">Search</string>
+    <string name="places">Places</string>
+    <string name="favorites">Favorites</string>
+    <string name="profile">Profile</string>
+    <string name="edit">Edit</string>
+    <string name="msgPrefix">The place name is : </string>
+    <string name="subjectPrefix">Share Place Details</string>
+    <string name="shareTitle">Share via…</string>
+
+
+    //AskOption
+    <string name="alertPopTitle">Delete</string>
+    <string name="alertPopMsg">Are you sure you want to delete this place ?</string>
+    <string name="alertLblNegative">Cancel</string>
+    <string name="alertLblPositive">Delete</string>
+
+
+</resources>

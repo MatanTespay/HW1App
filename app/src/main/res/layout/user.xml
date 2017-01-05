@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutName"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:text="@string/lblName"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblName"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:layout_weight="1"
+            android:id="@+id/txtName" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/layoutName"
+        android:layout_alignParentStart="true"
+        android:id="@+id/layoutAges">
+
+
+        <TextView
+            android:text="@string/lblAge"
+            android:layout_alignParentLeft="true"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblAge" />
+
+        <RadioGroup
+            android:layout_alignParentLeft="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ageGroup">
+
+            <RadioButton
+                android:text="@string/lblAgeG1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ageG1"
+                android:layout_weight="1"
+                android:checked="false" />
+
+            <RadioButton
+                android:text="@string/lblAgeG2"
+                android:layout_below="@id/ageG1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ageG2"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:text="@string/lblAgeG3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ageG3"
+                android:layout_below="@id/ageG2"
+                android:layout_weight="1" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_below="@+id/layoutAges"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutCountry"
+        android:layout_marginTop="20dp">
+
+        <TextView
+
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblCountry"
+            android:text="@string/lblCountry"
+            android:layout_weight="1" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/countrySpin"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/layoutCountry"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSave"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:text="@string/lblSaveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSaveInfo"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</RelativeLayout>
