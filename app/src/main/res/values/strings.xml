@@ -24,7 +24,9 @@
     <string name="ErrorChanges"> "Error on saving changes"</string>
     <string name="NoPlaces">"No places to show"</string>
     <string name="removeMsg">"The place: %1$s was removed successfully."</string>
+    <string name="errorRemoveMsg">"The was a problem on removing place: %1$s"</string>
     <string name="dialogPlaceTag">place_info_frag</string>
+    <string name="dialogEditTag">place_info_edit</string>
 
 
     //Edit Dialog
@@ -38,6 +40,9 @@
     <string name="FavTitle">Favorites Places</string>
     <string name="nofav">You haven\'t favorite any place yet!!!</string>
     <string name="hint">Search places..</string>
+    <string name="editLbl">Edit</string>
+    <string name="closeLbl">Close</string>
+    <string name="deleteLbl">Delete</string>
 
 
     //ImagPicker
@@ -75,6 +80,14 @@
     <string name="alertPopMsg">Are you sure you want to delete this place ?</string>
     <string name="alertLblNegative">Cancel</string>
     <string name="alertLblPositive">Delete</string>
+    <string name="noPlace">the requested place doesnt exist</string>
+    <string name="MainActivityFrag">MainActivityFrag</string>
+    <string name="PlacesActivityFrag">PlacesActivityFrag</string>
+    <string name="deletePlacesMsg">"Delete the selected places"</string>
 
+    <plurals name="deletePlacesQty">
+        <item quantity="one">Delete %1$s selected place</item>
+        <item quantity="other">Delete %1$d selected places</item>
+    </plurals>
 
 </resources>

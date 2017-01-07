@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -24,13 +25,14 @@ import utils.HelperClass;
 import utils.SmartFragmentManager;
 
 import static android.R.id.input;
+import static com.example.matan.hw1app.R.id.txtDesc;
 
 /**
- *  custom list adapter to populate the list items in view list object
+ *  custom list adapter to populate the list items in RecyclerView object
  * Created by Matan on 24/11/2016.
  */
 
-public class CustomListAdapter extends RecyclerView.Adapter<ViewHolder>{
+public class CustomRecyclerAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     private LayoutInflater mLayoutInflater;
     private List<Place> items = null;
@@ -43,7 +45,7 @@ public class CustomListAdapter extends RecyclerView.Adapter<ViewHolder>{
      * @param context the class context
      * @param items the items to populate in the view
      */
-    public CustomListAdapter(Context context, List<Place> items) {
+    public CustomRecyclerAdapter(Context context, List<Place> items) {
         this.items = items;
         this.context = (Activity)context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -55,6 +57,20 @@ public class CustomListAdapter extends RecyclerView.Adapter<ViewHolder>{
      */
     public int getItemCount() {
         return items.size();
+    }
+
+
+    public List<Place> getItems() {
+        return items;
+    }
+
+    public Place getPlaceById(Long id){
+
+        for (Place p: items) {
+            if(p.getId().equals(id))
+                return p;
+        }
+        return null;
     }
 
     @Override
@@ -94,7 +110,7 @@ public class CustomListAdapter extends RecyclerView.Adapter<ViewHolder>{
         });
     }
 
-    /*public View getView(int position, View view, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.recycler_item, null,true);
 
@@ -105,15 +121,7 @@ public class CustomListAdapter extends RecyclerView.Adapter<ViewHolder>{
         txtName.setText(item.getName());
 
         String fileName;
-        *//**
-         * check if the imageFileName is not null and set the bitmap for the imageView
-         *//*
-        *//*if(!item.getImgFileName().equals("")){
-            fileName = item.getImgFileName();
-            Bitmap imgTemp = h.loadSnap(fileName);
-            if(imgTemp != null)
-                imageView.setImageBitmap(imgTemp);
-        }*//*
+
         if(item.getImgData() != null)
             imageView.setImageBitmap(item.getImgData());
 
@@ -122,7 +130,17 @@ public class CustomListAdapter extends RecyclerView.Adapter<ViewHolder>{
 
         return rowView;
 
-    }*/
+    }
+
+    public void updatePlace(Place p) {
+        Place placeToUpdate = getPlaceById(p.getId());
+        int idx = items.indexOf(placeToUpdate);
+        if(placeToUpdate != null && idx > -1){
+            items.set(idx,p);
+            notifyDataSetChanged();
+        }
+
+    }
 }
 
 class ViewHolder extends RecyclerView.ViewHolder  {

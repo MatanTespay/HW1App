@@ -55,6 +55,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean isOpen() {
+        try {
+            return db.isOpen();
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return false;
+        }
+    }
+
     public void close() {
         try {
             db.close();
@@ -91,7 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             contentValues.put(ID, id);
             contentValues.put(NAME, name);
             contentValues.put(DESCRIPTION, description);
-            contentValues.put(IS_FAVORITE, is_favorite);
+            contentValues.put(IS_FAVORITE, is_favorite ? 1 : 0);
 
             if (bitmap != null) {
                 byte[] data = getBitmapAsByteArray(bitmap);
@@ -116,8 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int numberOfRows(){
 
-        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
-        return numRows;
+        return (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }
 
     public int updateRow (long id, String name, String description, boolean is_favorite, Bitmap image) {
@@ -125,7 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(NAME, name);
         contentValues.put(DESCRIPTION, description);
-        contentValues.put(IS_FAVORITE, is_favorite);
+        contentValues.put(IS_FAVORITE, is_favorite ? 1 : 0);
 
 
         if (image != null) {
@@ -177,10 +185,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private Place getPlaceFromCursor(Cursor res){
         Place p ;
         Bitmap image;
+
         p = new Place(res.getLong(res.getColumnIndex(ID))
                 , res.getString(res.getColumnIndex(NAME))
                 , res.getString(res.getColumnIndex(DESCRIPTION))
-                , Boolean.getBoolean(res.getString(res.getColumnIndex(IS_FAVORITE)))
+                , res.getInt(res.getColumnIndex(IS_FAVORITE)) == 1
                 , null);
 
         byte[] img1Byte = res.getBlob(res.getColumnIndex(IMAGE_FILE_NAME));
@@ -223,7 +232,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (res != null) {
                 res.moveToFirst();
 
-                while(res.isAfterLast() == false){
+                while(!res.isAfterLast()){
 
                     array_list.add(getPlaceFromCursor(res));
                     res.moveToNext();

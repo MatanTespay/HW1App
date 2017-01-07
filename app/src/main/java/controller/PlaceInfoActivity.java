@@ -165,7 +165,7 @@ public class PlaceInfoActivity extends AppCompatActivity implements EditDialog.E
      * invoke the {@link EditDialog} Edit Popup Dialog for editing the place
      */
     private void showEditDialog() {
-        FragmentManager fm = getSupportFragmentManager();
+        android.app.FragmentManager fm = getFragmentManager();
         EditDialog editDialog = new EditDialog();
         editDialog.show(fm, "fragment_edit_name");
     }
@@ -236,10 +236,10 @@ public class PlaceInfoActivity extends AppCompatActivity implements EditDialog.E
                             Place p =   ((PlaceInfoActivity)parent).getP();
                             if(p!=null){
                                 String title  = p.getName();
-                                GlobalVariables.getInstance().removeItem(p);
+                                long result = GlobalVariables.getInstance().removeItem(p);
                                 dialog.dismiss();
                                 parent.finish();
-                                GlobalVariables.getInstance().showToast(R.string.removeMsg, new Object[] {title} );
+                                GlobalVariables.getInstance().showToast(((result > 0) ? R.string.removeMsg : R.string.errorRemoveMsg), new Object[] {title} );
                             }
 
                         }

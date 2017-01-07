@@ -3,6 +3,7 @@ package controller;
 /**
  * Created by Matan on 27/11/2016.
  */
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +16,8 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
+
+import android.app.Fragment;
 import android.util.Log;
 
 import com.example.matan.hw1app.R;
@@ -79,7 +81,7 @@ public class ImagePicker  {
      * @param chooserTitle will appear on the picker dialog.
      */
     public static void pickImage(Fragment fragment, String chooserTitle) {
-        Intent chooseImageIntent = getPickImageIntent(fragment.getContext(), chooserTitle);
+        Intent chooseImageIntent = getPickImageIntent(fragment.getActivity(), chooserTitle);
         fragment.startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
     }
 
@@ -202,15 +204,20 @@ public class ImagePicker  {
             e.printStackTrace();
         }
 
-        if (fileDescriptor != null) {
-            actuallyUsableBitmap = BitmapFactory
-                    .decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options);
-            Log.i(TAG, "Trying sample size " + options.inSampleSize + "\t\t"
-                    + "Bitmap width: " + actuallyUsableBitmap.getWidth()
-                    + "\theight: " + actuallyUsableBitmap.getHeight());
-        }
+        try {
+            if (fileDescriptor != null) {
+                actuallyUsableBitmap = BitmapFactory
+                        .decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options);
+                Log.i(TAG, "Trying sample size " + options.inSampleSize + "\t\t"
+                        + "Bitmap width: " + actuallyUsableBitmap.getWidth()
+                        + "\theight: " + actuallyUsableBitmap.getHeight());
+            }
 
-        return actuallyUsableBitmap;
+            return actuallyUsableBitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  null;
+        }
     }
 
 

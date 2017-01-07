@@ -1,11 +1,17 @@
 package model;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Toast;
+
+import com.example.matan.hw1app.R;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +21,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import controller.FavoriteActivities;
+import controller.MainActivity;
+import controller.MainActivityFrag;
+import controller.PlaceInfoFrag;
+import controller.PlacesActivityFrag;
+import utils.SmartFragmentManager;
 
 /**
  * Created by Matan on 24/11/2016.
@@ -61,7 +74,7 @@ public class GlobalVariables {
       return  db.insertRow(item.getId(),item.getName(), item.getDescription(),item.isFavorite,item.getImgData());
     }
 
-    public int removeItem(Place item){
+    public long removeItem(Place item){
        return db.deleteRow(item.getId());
     }
 
@@ -86,6 +99,9 @@ public class GlobalVariables {
         return db.getAllRows();
     }
 
+    public boolean isDBOpen(){
+        return   db.isOpen();
+    }
 
     public Place getItemById(long id) {
 
@@ -194,5 +210,72 @@ public class GlobalVariables {
             return null;
         }
 
+    }
+
+    public void onFinishEditDialog(Bundle input, Activity activity){
+
+        Place  p = input.getParcelable("placeItem");
+        if(p != null) {
+
+            PlaceInfoFrag itemFrag;
+            Bundle args = new Bundle();
+            args.putLong("item_id",p.getId());
+            Fragment item_dialog = null;
+            showToast(R.string.savedChanges , new Object[]{p.getName()});
+            //check which fragment is visible and
+            MainActivityFrag mainfrag = (MainActivityFrag) SmartFragmentManager.getInstance().getfManager().findFragmentByTag(activity.getResources().getString(R.string.MainActivityFrag));
+            // handel dialog finish from main activity after adding new place
+            if(activity instanceof MainActivity){
+                if( mainfrag != null && mainfrag.isVisible()){
+                    //on MainActivity and MainActivityFrag is shown
+                    //open places fragment.
+                    mainfrag.showPlaces();
+
+                }
+                else{
+
+                    PlacesActivityFrag placesFrag = (PlacesActivityFrag) activity.getFragmentManager().findFragmentByTag(activity.getResources().getResourceName(R.string.PlacesActivityFrag ));
+                    if(placesFrag != null && placesFrag.isVisible()){
+                        //on MainActivity and PlacesActivityFrag is shown
+                        //handel dialog finish from places fragment activity after updating existing place
+
+
+                        item_dialog = activity.getFragmentManager().findFragmentByTag(activity.getResources().getResourceName(R.string.dialogPlaceTag ));
+
+                        if(item_dialog != null ){
+                            itemFrag = (PlaceInfoFrag)item_dialog;
+                            itemFrag.setPlaceInfo(p);
+                        }
+                        else{
+                            FragmentManager fm = activity.getFragmentManager();
+                            itemFrag = new PlaceInfoFrag();
+                            itemFrag.setArguments(args);
+                            itemFrag.show(fm,activity.getResources().getResourceName(R.layout.activity_place_info ));
+                        }
+
+                        placesFrag.setDate();
+                    }
+                }
+            }
+            else if (activity instanceof FavoriteActivities){
+
+                item_dialog = activity.getFragmentManager().findFragmentByTag(activity.getResources().getResourceName(R.string.dialogPlaceTag ));
+
+                if(item_dialog != null ){
+                    itemFrag = (PlaceInfoFrag)item_dialog;
+                    itemFrag.setPlaceInfo(p);
+                }
+                else{
+                    FragmentManager fm = activity.getFragmentManager();
+                    itemFrag = new PlaceInfoFrag();
+                    itemFrag.setArguments(args);
+                    itemFrag.show(fm,activity.getResources().getResourceName(R.layout.activity_place_info ));
+                }
+
+                ((FavoriteActivities)activity).updateDataAfterEdit();
+            }
+
+
+        }
     }
 }

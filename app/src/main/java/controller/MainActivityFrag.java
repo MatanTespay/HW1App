@@ -61,7 +61,7 @@ public class MainActivityFrag extends Fragment  {
     public void showPlaces(){
         Fragment fragment = new PlacesActivityFrag();
         int containerViewId = R.id.content_frame;
-        SmartFragmentManager.getInstance().ReplaceToFragment(fragment,containerViewId,"PlacesActivityFrag");
+        SmartFragmentManager.getInstance().ReplaceToFragment(fragment,containerViewId,context.getResources().getResourceName(R.string.PlacesActivityFrag));
     }
     /**
      * Listener for btnFav to show all favorites
@@ -108,7 +108,7 @@ public class MainActivityFrag extends Fragment  {
     private void showEditDialog() {
         if(getActivity() != null){
             FragmentActivity frma = (FragmentActivity)getActivity();
-            FragmentManager fm = frma.getSupportFragmentManager();
+            android.app.FragmentManager fm = frma.getFragmentManager();
             EditDialog editDialog = new EditDialog();
             editDialog.show(fm,getResources().getResourceName(R.layout.fragment_edit_name ));
         }

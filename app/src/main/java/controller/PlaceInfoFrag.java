@@ -3,6 +3,8 @@ package controller;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.app.FragmentManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +24,14 @@ import android.widget.TextView;
 import com.example.matan.hw1app.R;
 
 import java.io.File;
+import java.util.List;
 
 import model.GlobalVariables;
 import model.Place;
+import utils.MyUiAsync;
+import utils.SmartFragmentManager;
 
+import static android.R.id.list;
 import static com.example.matan.hw1app.R.id.btnPickImg;
 import static com.example.matan.hw1app.R.id.btnSave;
 
@@ -44,6 +50,7 @@ public class PlaceInfoFrag extends DialogFragment {
     private static final String SUBJECT_PREFIX = "share place details";
     private static final String MSG_PREFIX = "The place name is  : ";
     private static final String SHARE_TITLE = "Share via...";
+    private boolean isDeleted = false;
 
     private Button btnEdit;
     private Button btnRemove;
@@ -70,6 +77,15 @@ public class PlaceInfoFrag extends DialogFragment {
         fragView = inflater.inflate(R.layout.activity_place_info, container);
         getDialog().setTitle(R.string.PlaceInfoTitle);
         alert = AskOption();
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                //do something when the dialog dismiss.
+                if(p != null && isDeleted){
+                    onDismissAlert(p);
+                }
+            }
+        });
 
         btnEdit  = (Button) fragView.findViewById(R.id.btnEdit);
         btnRemove  = (Button) fragView.findViewById(R.id.btnRemove);
@@ -77,6 +93,40 @@ public class PlaceInfoFrag extends DialogFragment {
         btnFav  = (Button) fragView.findViewById(R.id.btnFav);
         setClickListeners();
         return  fragView;
+    }
+
+    /**
+     * eevnt handler when AlertDialog is dismissed
+     * @param p
+     */
+    private void onDismissAlert(Place p) {
+        Activity act = getActivity();
+        Place placeToRemove;
+        if(act instanceof MainActivity ){
+            PlacesActivityFrag placesFrag = (PlacesActivityFrag) act.getFragmentManager().findFragmentByTag(act.getResources().getResourceName(R.string.PlacesActivityFrag ));
+            if(placesFrag != null && placesFrag.isVisible()){
+                placesFrag.setDate();
+                /*placeToRemove = placesFrag.getAdapter().getPlaceById(p.getId());
+                if(placeToRemove != null){
+                    placesFrag.getAdapter().getItems().remove(placeToRemove);
+                    placesFrag.getAdapter().notifyDataSetChanged();
+                }*/
+            }
+        }else if(act instanceof FavoriteActivities){
+            FavoriteActivities favAct = (FavoriteActivities) act;
+            placeToRemove = favAct.getAdapter().getPlaceById(p.getId());
+            if(placeToRemove != null){
+                favAct.getAdapter().getItems().remove(placeToRemove);
+                favAct.getAdapter().notifyDataSetChanged();
+            }
+        }
+
+        Fragment item_dialog = act.getFragmentManager().findFragmentByTag(act.getResources().getResourceName(R.string.dialogPlaceTag ));
+        if(item_dialog != null ){
+            ((PlaceInfoFrag)item_dialog).dismiss();
+
+        }
+
     }
 
     /**
@@ -178,13 +228,24 @@ public class PlaceInfoFrag extends DialogFragment {
      * invoke the {@link EditDialog} Edit Popup Dialog for editing the place
      */
     private void showEditDialog() {
-        FragmentActivity frma = (FragmentActivity)getActivity();
-        FragmentManager fm = frma.getSupportFragmentManager();
+
         Bundle args = new Bundle();
         args.putLong("item_id",p.getId());
-        EditDialog editDialog = new EditDialog();
-        editDialog.setArguments(args);
-        editDialog.show(fm, "fragment_edit_name");
+
+        Activity act = getActivity();
+        if(act instanceof FragmentActivity ){
+            FragmentActivity frma = (FragmentActivity)act;
+            FragmentManager fm = frma.getFragmentManager();
+
+            EditDialog editDialog = new EditDialog();
+            editDialog.setArguments(args);
+            //editDialog.show(fm, "fragment_edit_name");
+            editDialog.show(fm, "fragment_edit_name");
+        }else if(act instanceof ListActivity){
+            FavoriteActivities favAct = (FavoriteActivities) act;
+            favAct.showEditPlaceDialog(args,2);
+        }
+
     }
 
     @Override
@@ -200,6 +261,7 @@ public class PlaceInfoFrag extends DialogFragment {
 
         if(p == null){
             this.dismiss();
+            //GlobalVariables.getInstance().showToast(R.string.noPlace);
         }else{
             setPlaceInfo(p);
         }
@@ -244,9 +306,11 @@ public class PlaceInfoFrag extends DialogFragment {
 
                             if(p!=null){
                                 String title  = p.getName();
-                                GlobalVariables.getInstance().removeItem(p);
+                                long result = GlobalVariables.getInstance().removeItem(p);
+                                isDeleted = true;
                                 dialog.dismiss();
-                                GlobalVariables.getInstance().showToast(R.string.removeMsg, new Object[] {title} );
+                                GlobalVariables.getInstance().showToast(((result > 0) ? R.string.removeMsg : R.string.errorRemoveMsg), new Object[] {title} );
+
                             }
                     }
 
@@ -254,6 +318,7 @@ public class PlaceInfoFrag extends DialogFragment {
                 .setNegativeButton(R.string.alertLblNegative, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
+                        isDeleted = false;
                         dialog.dismiss();
 
                     }

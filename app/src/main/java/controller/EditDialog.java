@@ -1,6 +1,7 @@
 package controller;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,7 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
+import android.app.DialogFragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,7 @@ import static android.R.attr.id;
  * Created by Matan on 25/11/2016.
  */
 
-public class EditDialog extends DialogFragment implements TextView.OnEditorActionListener , ActivityCompat.OnRequestPermissionsResultCallback {
+public class EditDialog extends DialogFragment implements TextView.OnEditorActionListener  {
 
     private EditDialog dialog = null;
     private ImageView img = null;
@@ -50,6 +51,7 @@ public class EditDialog extends DialogFragment implements TextView.OnEditorActio
     private static final String CANCEL_ID = "cancel";
     private static final String SAVE_ID = "save";
     boolean isImageChange = false;
+    Activity parentActivity;
     /**
      * Defines the listener interface with a method passing back data result.
      */
@@ -58,7 +60,12 @@ public class EditDialog extends DialogFragment implements TextView.OnEditorActio
     }
 
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!GlobalVariables.getInstance().isDBOpen())
+        GlobalVariables.getInstance().openDataBase(getActivity());
+    }
 
     public EditDialog() {
         // Empty constructor required for DialogFragment
@@ -83,6 +90,7 @@ public class EditDialog extends DialogFragment implements TextView.OnEditorActio
 
         getDialog().setTitle(R.string.PopUpEditTitle);
         EditDialogListener activity = (EditDialogListener) getActivity();
+        this.parentActivity = getActivity();
         Bundle args = getArguments();
         Long id;
         if(args != null) {
@@ -156,7 +164,7 @@ public class EditDialog extends DialogFragment implements TextView.OnEditorActio
 
     /**
      * event handler for editing action of keyboard
-     * @param v te text element
+     * @param v te alertQty element
      * @param actionId action id
      * @param event event type
      * @return
@@ -164,7 +172,7 @@ public class EditDialog extends DialogFragment implements TextView.OnEditorActio
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (EditorInfo.IME_ACTION_DONE == actionId) {
-            // Return input text to activity
+            // Return input alertQty to activity
             EditDialogListener activity = (EditDialogListener) getActivity();
             Bundle data = new Bundle();
             data.putParcelable("placeItem",placeItem);

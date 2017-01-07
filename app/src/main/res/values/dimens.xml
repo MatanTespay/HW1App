@@ -7,13 +7,13 @@
     <dimen name="recycler_margin_horizontal">4dp</dimen>
     <dimen name="recycler_margin_vertical">4dp</dimen>
     <dimen name="recycler_layout_spacing">4dp</dimen>
-    <dimen name="recycler_item_footer_height_min">48dp</dimen>
+    <dimen name="recycler_item_footer_height_min">68dp</dimen>
     <dimen name="recycler_item_footer_padding">16dp</dimen>
 
     <dimen name="recycler_margin_d_horizontal">4dp</dimen>
     <dimen name="recycler_margin_d_vertical">4dp</dimen>
     <dimen name="recycler_layout_d_spacing">4dp</dimen>
-    <dimen name="recycler_item_d_footer_height_min">48dp</dimen>
+    <dimen name="recycler_item_d_footer_height_min">68dp</dimen>
     <dimen name="recycler_item_d_footer_padding">16dp</dimen>
 
 </resources>

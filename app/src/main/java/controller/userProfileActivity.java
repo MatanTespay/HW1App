@@ -3,6 +3,7 @@ package controller;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -17,7 +18,7 @@ import com.example.matan.hw1app.R;
 import model.GlobalVariables;
 import utils.HelperClass;
 
-public class userProfileActivity extends Activity {
+public class userProfileActivity extends AppCompatActivity {
 	private static String NAME_KEY = "name_key";
 	private static String AGE_KEY = "age_key";
 	private static String COUNTRY_KEY = "country_key";

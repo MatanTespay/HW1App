@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="controller.PlacesActivityFrag" />
+        <!--<activity android:name="controller.PlacesActivityFrag" />-->
         <activity android:name="controller.PlaceInfoActivity"></activity>
         <activity android:name="controller.FavoriteActivities"></activity>
         <activity android:name="controller.userProfileActivity"></activity>

@@ -1,5 +1,6 @@
 package controller;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import model.GlobalVariables;
 import model.Place;
 import utils.SmartFragmentManager;
 
+import static android.R.attr.fragment;
+
 public class MainActivity extends AppCompatActivity implements EditDialog.EditDialogListener {
 
 
@@ -27,15 +30,28 @@ public class MainActivity extends AppCompatActivity implements EditDialog.EditDi
         setContentView(R.layout.activity_main_v2);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        //getSupportActionBar().setIcon(null);
-        //getSupportActionBar().setDisplayUseLogoEnabled(false);
+        getSupportActionBar().setIcon(null);
+        getSupportActionBar().setDisplayUseLogoEnabled(false);
 
         setTitle(this.getResources().getString(R.string.mainTitle));
         GlobalVariables.getInstance().openDataBase(this);
         SmartFragmentManager.getInstance().setfManager(getFragmentManager());
-        Fragment fragment = new MainActivityFrag();
-        int containerViewId = R.id.content_frame;
-        SmartFragmentManager.getInstance().ReplaceToFragment(fragment,containerViewId,"MainActivityFrag");
+        SmartFragmentManager.getInstance().setSupportfragManager(getSupportFragmentManager());
+
+        Bundle args = getIntent().getExtras();
+        if(args != null){
+            int tagId = args.getInt("fragTag");
+            Fragment fragment = new PlacesActivityFrag();
+            int containerViewId = R.id.content_frame;
+            SmartFragmentManager.getInstance().ReplaceToFragment(fragment,containerViewId,getResources().getResourceName(tagId));
+
+        }
+        else{
+            Fragment fragment = new MainActivityFrag();
+            int containerViewId = R.id.content_frame;
+            SmartFragmentManager.getInstance().ReplaceToFragment(fragment,containerViewId,getResources().getResourceName(R.string.MainActivityFrag));
+
+        }
 
     }
 
@@ -58,48 +74,8 @@ public class MainActivity extends AppCompatActivity implements EditDialog.EditDi
     @Override
     public void onFinishEditDialog(Bundle input) {
 
-        Place  p = input.getParcelable("placeItem");
-        if(p != null) {
+        GlobalVariables.getInstance().onFinishEditDialog(input,this);
 
-            GlobalVariables.getInstance().showToast(R.string.savedChanges , new Object[]{p.getName()});
-            MainActivityFrag mainfrag = (MainActivityFrag)SmartFragmentManager.getInstance().getfManager().findFragmentByTag("MainActivityFrag");
-            if(mainfrag != null && mainfrag.isVisible()){
-                mainfrag.showPlaces();
-            }else{
-
-                final PlacesActivityFrag placeFrag = (PlacesActivityFrag)SmartFragmentManager.getInstance().getfManager().findFragmentByTag("PlacesActivityFrag");
-                if(placeFrag != null && placeFrag.isVisible()){
-
-                    PlaceInfoFrag itemFrag;
-                    Bundle args = new Bundle();
-                    args.putLong("item_id",p.getId());
-
-                    Fragment item_dialog = getFragmentManager().findFragmentByTag(getResources().getResourceName(R.string.dialogPlaceTag ));
-
-                    if(item_dialog != null ){
-                        itemFrag = (PlaceInfoFrag)item_dialog;
-                        itemFrag.setPlaceInfo(p);
-                    }
-                    else{
-                        FragmentManager fm = getFragmentManager();
-                        itemFrag = new PlaceInfoFrag();
-                        itemFrag.setArguments(args);
-                        itemFrag.show(fm,getResources().getResourceName(R.layout.activity_place_info ));
-                    }
-
-
-                    /*MainActivity.this.runOnUiThread(new Runnable() {
-
-                        public void run() {
-                                placeFrag.getAdapter().notifyDataSetChanged();
-                        }
-                    });*/
-                }
-            }
-            /*Intent intent = new Intent(this, PlacesActivityFrag.class);
-            startActivity(intent);*/
-
-        }
     }
 
     @Override
@@ -115,39 +91,8 @@ public class MainActivity extends AppCompatActivity implements EditDialog.EditDi
         super.onPause();
     }
 
-    private class LongOperation extends AsyncTask<String, Void, String> {
 
-        PlacesActivityFrag frag;
 
-        public LongOperation(PlacesActivityFrag frag) {
-            this.frag = frag;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-           /* for (int i = 0; i < 5; i++) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    Thread.interrupted();
-                }
-            }*/
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            if(frag != null && frag.isVisible()){
-                frag.getAdapter().notifyDataSetChanged();
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {}
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
-    }
 }
 
 

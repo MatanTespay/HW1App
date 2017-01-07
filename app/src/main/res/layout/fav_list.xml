@@ -4,15 +4,36 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true" >
 
-    <!-- Editext for Search -->
-    <EditText android:id="@+id/inputSearch"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint"
-        android:inputType="textVisiblePassword" />
+    <!-- Button for delete-->
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="@string/deleteLbl"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/deleteBtn"
+            android:layout_width="80dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/action_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText android:id="@+id/inputSearch"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint"
+            android:inputType="textVisiblePassword"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent" />
+
+    </RelativeLayout>
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/listFav"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
     </ListView>

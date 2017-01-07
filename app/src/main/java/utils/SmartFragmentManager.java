@@ -12,7 +12,7 @@ import controller.EditDialog;
 public class SmartFragmentManager {
 	private static SmartFragmentManager instance = null;
 	private FragmentManager fManager = null;
-	private android.support.v4.app.FragmentManager fragManager = null;
+	private android.support.v4.app.FragmentManager supportfragManager = null;
 	public static final int NONE = 0;
 	public static final int SLIDE_LEFT = 1;
 	public static final int SLIDE_UP = 2;
@@ -73,5 +73,13 @@ public class SmartFragmentManager {
 
 	public FragmentManager getfManager() {
 		return fManager;
+	}
+
+	public android.support.v4.app.FragmentManager getSupportfragManager() {
+		return supportfragManager;
+	}
+
+	public void setSupportfragManager(android.support.v4.app.FragmentManager supportfragManager) {
+		this.supportfragManager = supportfragManager;
 	}
 }
