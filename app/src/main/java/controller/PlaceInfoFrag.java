@@ -51,7 +51,7 @@ public class PlaceInfoFrag extends DialogFragment {
     private static final String MSG_PREFIX = "The place name is  : ";
     private static final String SHARE_TITLE = "Share via...";
     private boolean isDeleted = false;
-
+    private boolean isFavorite = false;
     private Button btnEdit;
     private Button btnRemove;
     private Button btnShare;
@@ -283,6 +283,7 @@ public class PlaceInfoFrag extends DialogFragment {
             if(p.getImgData() != null){
                 img.setImageBitmap(p.getImgData());
             }
+
         }
     }
 
