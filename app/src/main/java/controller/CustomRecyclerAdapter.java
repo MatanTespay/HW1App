@@ -3,9 +3,7 @@ package controller;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -19,13 +17,8 @@ import com.example.matan.hw1app.R;
 
 import java.util.List;
 
-import model.GlobalVariables;
 import model.Place;
 import utils.HelperClass;
-import utils.SmartFragmentManager;
-
-import static android.R.id.input;
-import static com.example.matan.hw1app.R.id.txtDesc;
 
 /**
  *  custom list adapter to populate the list items in RecyclerView object
@@ -36,19 +29,19 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     private LayoutInflater mLayoutInflater;
     private List<Place> items = null;
-    private Activity context = null;
+    private Activity mainActivity = null;
     HelperClass h;
     private static final String FRAG_TAG = "place_info_frag";
 
     /**
      * ctor of the class
-     * @param context the class context
+     * @param mainActivity the class mainActivity
      * @param items the items to populate in the view
      */
-    public CustomRecyclerAdapter(Context context, List<Place> items) {
+    public CustomRecyclerAdapter(Context mainActivity, List<Place> items) {
         this.items = items;
-        this.context = (Activity)context;
-        mLayoutInflater = LayoutInflater.from(context);
+        this.mainActivity = (Activity) mainActivity;
+        mLayoutInflater = LayoutInflater.from(mainActivity);
     }
 
     /**
@@ -78,12 +71,20 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<ViewHolder>{
         return new ViewHolder(mLayoutInflater.inflate(R.layout.recycler_item, viewGroup, false));
     }
 
+    /**
+     * bind each view holder with place item in th recycler view
+     * @param viewHolder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
         final Place item = items.get(position);
         viewHolder.setData(item);
 
+        /**
+         * when clicking on item in recycler
+         */
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,13 +96,14 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<ViewHolder>{
                 args.putLong("item_id",selectedItem.getId());
 
 
-                if(context instanceof  FragmentActivity){
-                    FragmentActivity frma = (FragmentActivity)context;
+                //open the place item dialog fragment
+                if(mainActivity instanceof  FragmentActivity){
+                    FragmentActivity frma = (FragmentActivity) mainActivity;
                     FragmentManager fm = frma.getFragmentManager();
                     PlaceInfoFrag itemFrag = new PlaceInfoFrag();
                     itemFrag.setArguments(args);
-                    //itemFrag.show(fm,context.getResources().getResourceName(R.layout.fragment_edit_name ));
-                    itemFrag.show(fm,context.getResources().getResourceName(R.string.dialogPlaceTag ));
+                    //itemFrag.show(fm,mainActivity.getResources().getResourceName(R.layout.fragment_edit_name ));
+                    itemFrag.show(fm, mainActivity.getResources().getResourceName(R.string.dialogPlaceTag ));
 
                 }
 
@@ -111,7 +113,7 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<ViewHolder>{
     }
 
     public View getView(int position, View view, ViewGroup parent) {
-        LayoutInflater inflater=context.getLayoutInflater();
+        LayoutInflater inflater= mainActivity.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.recycler_item, null,true);
 
         TextView txtName = (TextView) rowView.findViewById(R.id.r_name);
@@ -143,6 +145,9 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<ViewHolder>{
     }
 }
 
+/**
+ * object the holds the data for each item in list
+ */
 class ViewHolder extends RecyclerView.ViewHolder  {
     // Views
     private ImageView image;
@@ -158,6 +163,10 @@ class ViewHolder extends RecyclerView.ViewHolder  {
         desc = (TextView) itemView.findViewById(R.id.r_description);
     }
 
+    /**
+     * set data in the view holder
+     * @param item the item with the data to populate
+     */
     public void setData(Place item) {
         image.setImageBitmap(item.getImgData());
         name.setText(item.getName());
