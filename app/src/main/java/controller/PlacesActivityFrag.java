@@ -35,6 +35,7 @@ public class PlacesActivityFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_places, container, false);
         context = view.getContext();
+        //enable ActionBar in this fragment
         setHasOptionsMenu(true);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         setDate();
@@ -55,6 +56,11 @@ public class PlacesActivityFrag extends Fragment {
         }
     }
 
+    /**
+     * set actionBar
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -62,6 +68,11 @@ public class PlacesActivityFrag extends Fragment {
         inflater.inflate(R.menu.places_frag_menu, menu);
     }
 
+    /**
+     * when select action item on ActionBar
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -90,12 +101,7 @@ public class PlacesActivityFrag extends Fragment {
         super.onResume();
 
         setDate();
-        /*GlobalVariables.getInstance().openDataBase(context);
-        items = GlobalVariables.getInstance().getAllItems();
 
-        //list = (ListView) findViewById(R.id.list);
-
-        adapter = new CustomRecyclerAdapter(this.context, items);*/
         if (items.size() == 0) {
             GlobalVariables.getInstance().showToast(R.string.NoPlaces,null);
         }

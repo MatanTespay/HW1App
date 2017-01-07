@@ -27,6 +27,7 @@ import java.util.List;
 
 import model.Place;
 import utils.HelperClass;
+import utils.RoundedImageView;
 
 import static android.R.attr.resource;
 import static android.R.id.list;
@@ -77,7 +78,10 @@ public class CustomListViewAdapter extends ArrayAdapter<Place> implements Compou
     }
 
 
-
+    /**
+     * get adapter select items count
+     * @return
+     */
     public int getSelectedCount(){
         int c = 0;
         for(int i=0;i<getCount();i++)
@@ -147,8 +151,11 @@ public class CustomListViewAdapter extends ArrayAdapter<Place> implements Compou
         holder.chkSelect.setTag(position);
         holder.chkSelect.setChecked(mCheckStates.get(position, false));
         holder.chkSelect.setOnCheckedChangeListener(this);
-        if(placeItem.getImgData() != null)
-            holder.bImg.setImageBitmap(placeItem.getImgData());
+        if(placeItem.getImgData() != null){
+            Bitmap rouderBitmap = RoundedImageView.getCroppedBitmap(placeItem.getImgData(),300);
+            holder.bImg.setImageBitmap(rouderBitmap);
+        }
+
         return convertView;
 
 /*
