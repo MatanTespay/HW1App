@@ -53,7 +53,7 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<ViewHolder>{
     }
 
 
-    public List<Place> getItems() {
+    public List<Place> getItems () {
         return items;
     }
 
